@@ -1,20 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit"
+import {createSlice} from "@reduxjs/toolkit"
 
 const toolkitSlice = createSlice({
     name: 'toolkit',
     initialState: {
         posts: [],
-        loading: false
+        totalPosts: 0,
+        loading: false,
     },
     reducers: {
-        loadPosts(state, action){
-            state.posts.push(action.payload)
+        setPosts(state, action) {
+            state.posts = action.payload;
         },
-        stopLoading(state) {
-            state.loading = true
+        setTotalPosts(state, action) {
+            state.totalPosts = action.payload
+        },
+        stopLoading(state, action) {
+            state.loading = action.payload
         }
     }
 })
 
+
 export default toolkitSlice.reducer
-export const { loadPosts, stopLoading } = toolkitSlice.actions
+export const {setPosts, setTotalPosts, stopLoading} = toolkitSlice.actions

@@ -1,0 +1,19 @@
+.post-full{
+    min-height: 807px;
+}
+
+/* .title__text-full, */
+.content__preview-full,
+.content__body{
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.title__text-full {
+    max-width: 600px;
+    overflow-wrap: break-word;
+}
+
+.content__body{
+    width: 880px;
+}
