@@ -1,26 +1,28 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable import/order */
 /* eslint-disable no-nested-ternary */
-// eslint-disable-next-line import/order
 import React from 'react'
 import './post.css'
 
 import { HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import textTruncate from '../../services/truncate'
 import { setLike, deleteLike, getPosts } from '../../services/api'
 
-export default function Post({ title, desc, tags, slug, username, avatar, favorited, favoritesCount }) {
+export default function Post({ title, desc, tags, slug, username, avatar, favorited, favoritesCount, currentPage }) {
   const dispatch = useDispatch()
+  const { isLoggedIn } = useSelector((state) => state.user)
 
   const handleClick = async () => {
     await setLike(slug)
-    await dispatch(getPosts({}))
+    await dispatch(getPosts({ offset: 5 * currentPage - 5 }))
   }
 
   const handleDelete = async () => {
     await deleteLike(slug)
-    await dispatch(getPosts({}))
+    await dispatch(getPosts({ offset: 5 * currentPage - 5 }))
   }
 
   return (
@@ -30,10 +32,14 @@ export default function Post({ title, desc, tags, slug, username, avatar, favori
           <Link to={`/articles/${slug}`} className="title__text">
             {textTruncate(title, 50)}
           </Link>
-          {favorited ? (
-            <HeartFilled className="liked" onClick={() => handleDelete()} />
+          {favorited && isLoggedIn ? (
+            <button type="button" disabled={!isLoggedIn} onClick={() => handleDelete()}>
+              <HeartFilled className="liked" />
+            </button>
           ) : (
-            <HeartOutlined onClick={() => handleClick()} />
+            <button type="button" disabled={!isLoggedIn} onClick={() => handleClick()}>
+              <HeartOutlined />
+            </button>
           )}
           <p className="title__likes">{favoritesCount}</p>
         </div>

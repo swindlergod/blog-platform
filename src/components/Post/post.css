@@ -100,5 +100,7 @@
   color: red;
 }
 
-.notliked {
+.anticon svg {
+  height: 16px;
+  width: 16px;
 }
